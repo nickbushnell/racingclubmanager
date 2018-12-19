@@ -1,0 +1,39 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=Monda:400' rel='stylesheet' type='text/css'>
+<style type="text/css">
+	body {
+		background-color: #263248;
+		font-family: 'Monda', sans-serif;
+		color: #FF9800;
+		font-size:12px;
+		margin:0px;
+	}
+</style>
+
+<script type="text/javascript">
+function doOnLoad() {
+	var href = location.href;
+	var arr = href.split("/");
+	//alert(arr[arr.length-1]);
+	
+	window.location.href = "http://www.racingclubmanager.com/404.cfm?club=" + arr[arr.length-1];
+}
+
+
+</script>
+</head>
+<body onload="doOnLoad()">
+
+<div id="divIssues" align="center">
+	<br /><br />
+	<div style="font-size: 40px;">Loading...</h1>
+	<br /><br />
+	<div style="font-size: 20px;">
+	Having issues? <a href="http://racingclubmanager.com/index.html?stay=yes" style="color:white;">Go Home</a> and search for the club you want, and we'll work on this issue. Sorry for the inconvenience.
+	</h2>
+</div>
+
+
+</body>
+</html>

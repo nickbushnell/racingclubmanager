@@ -1,0 +1,59 @@
+	body {
+		margin: 0px;
+		font-family: Verdana;
+		font-size: 10pt;
+		background-color: #555;
+	}
+	
+	td {
+		font-size: 10pt;
+	}
+	
+	a {
+		text-decoration: none;
+	}
+	
+	.font_size_10 {
+		font-size: 10pt;
+	}
+	
+	#tab_races {
+		width:5em;
+		background-color:#ccc;
+		border:1px solid black;
+		border-bottom: none;
+	}
+	
+	#tab_series {
+		width:5em;
+		background-color:#ddd;
+		border:1px solid black;
+		border-left:none;
+	}
+	
+	#tab_boards {
+		width:10em;
+		background-color:#ddd;
+		border:1px solid black;
+		border-left:none;
+	}
+	
+	#tab_racers {
+		width:5em;
+		background-color:#ddd;
+		border:1px solid black;
+		border-left:none;
+	}
+	
+	#tab_search {
+		width:5em;
+		background-color:#ddd;
+		border:1px solid black;
+		border-left:none;
+	}
+	
+	#iframe1 {
+		/*background-color:#D0D5E5;*/
+		background-color: white;
+		border: none;
+	}

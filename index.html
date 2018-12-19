@@ -1,0 +1,414 @@
+<html>
+<head>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href='http://fonts.googleapis.com/css?family=Monda:400' rel='stylesheet' type='text/css'>
+<meta name="description" content="Racing Club Manager is a free tool that allows you to create or join a racing club for your favorite racing games. Organize. Schedule. Race." />
+<style type="text/css">
+	body {
+		background-color: #263248;
+		font-family: 'Monda', sans-serif;
+		color: #F8F8FF;
+		margin:0px;
+	}
+	
+	a {
+		color: black;
+		text-decoration:none;
+	}
+	
+	.block {
+		background-color: #FF9800;
+	}
+	
+	.arrows {
+		font-family:webdings;
+		cursor:pointer;
+	}
+	
+	.title {
+		color: #FF9800;
+	}
+	
+	#rcmTitle {
+		font-family: 'Monda', sans-serif;
+		font-size: 85px;
+		/*color: #FF9800;*/
+	}
+	
+	td {
+		font-size: 13px;
+	}
+	
+	#tagLine {
+		font-size:50px;
+		color: #FF9800;
+		position: absolute;
+		width: 100%;
+		visibility: hidden;
+	}
+	
+	#car {
+		text-align: center;
+		float: left;
+	}
+	
+	#clubSearch {
+		text-align: center;
+		float: right;
+	}
+	
+	#descDiv {
+		position: absolute;
+		visibility: hidden;
+		width: 100%;
+	}
+	
+	#description {
+		width: 80%;
+	}
+	
+	#description a{
+		color: #FF9800;
+		text-decoration: underline;
+	}
+	
+	#socialDiv {
+		position: absolute;
+		visibility: hidden;
+		width: 100%;
+	}
+	
+	.index-nav-link {
+		font-size:14pt;
+	}
+	
+	.index-nav-link:hover {
+		color: white;
+	}
+</style>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-58403412-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<script type="text/javascript" src="include/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+	getDefaultClub();
+	
+	var didInit = false;
+	
+	$(window).resize(function () { doResize() });
+	
+	function init() {
+		//console.log("init");
+		didInit = true;
+		doResize();
+	}
+	
+	function getDefaultClub() {
+		var cookie = "";
+		if(getCookie("defaultClub")) {
+			cookie = getCookie("defaultClub");
+		}
+		
+		var stay = location.search.indexOf("stay=yes");
+		if(cookie.toString().length > 0 && stay < 0) {
+			window.location = "club_home.cfm?club="+cookie.toString();
+		}
+	}
+	
+	function doResize() {
+		if(didInit) {
+			//console.log(document.body.offsetWidth);
+			//resizeText("rcmTitle", parseInt(document.body.offsetWidth), 85, 875, .90);
+			doCarAndSearch();
+			doTagLine();
+			doDescDiv();
+			doSocialDiv();
+			resizeOverlay();
+		}
+	}
+	
+	function resizeOverlay() {
+		if(document.getElementById("overlay").style.display == "") {
+			showOverlay(true);
+		}
+	}
+	
+	function doCarAndSearch() {
+		var car = document.getElementById("car");
+		var search = document.getElementById("clubSearch");
+		var carImg = document.getElementById("carImg");
+		var rcmTitle = document.getElementById("rcmTitle");
+		
+		
+		if(parseInt(document.body.offsetWidth) < 1000) {
+			car.style.float = "none";
+			car.style.width = "100%";
+			search.style.float = "none";
+			search.style.width = "100%";
+			if(parseInt(document.body.offsetWidth) < 500) {
+				rcmTitle.style.letterSpacing = "-4px";
+				rcmTitle.style.wordSpacing = "0px";
+			} else if(parseInt(document.body.offsetWidth) < 600) {
+				rcmTitle.style.letterSpacing = "-5px";
+				rcmTitle.style.wordSpacing = "0px";
+			} else if(parseInt(document.body.offsetWidth) < 700) {
+				rcmTitle.style.letterSpacing = "-6px";
+				rcmTitle.style.wordSpacing = "0px";
+			} else if(parseInt(document.body.offsetWidth) < 800) {
+				rcmTitle.style.letterSpacing = "-7px";
+				rcmTitle.style.wordSpacing = "-3px";
+			} else if(parseInt(document.body.offsetWidth) < 900) {
+				rcmTitle.style.letterSpacing = "-8px";
+				rcmTitle.style.wordSpacing = "-4px";
+			} else {
+				rcmTitle.style.letterSpacing = "-9px";
+				rcmTitle.style.wordSpacing = "-5px";
+			}
+		} else if(parseInt(document.body.offsetWidth) > 1500) {
+			car.style.float = "left";
+			car.style.width = "50%";
+			search.style.float = "right";
+			search.style.width = "50%";
+			rcmTitle.style.letterSpacing = "-10px";
+			rcmTitle.style.wordSpacing = "-10px";
+			carImg.width = "600";
+		} else {
+			car.style.float = "left";
+			car.style.width = "";
+			search.style.float = "right";
+			search.style.width = "";
+			carImg.width = "300";
+			rcmTitle.style.letterSpacing = "-10px";
+			rcmTitle.style.wordSpacing = "-7px";
+		}
+	}
+	
+	function doTagLine() {
+		var perc = .70;
+		var body = parseInt(document.body.offsetWidth);
+		if(body < 600) {
+			perc = .90;
+		} else {
+			perc = .70;
+		}
+		
+		resizeText("tagLine", body, 50, 785, perc);
+		var topPos = 0;
+		topPos += parseInt(document.getElementById("clubSearch").getBoundingClientRect().bottom);
+		document.getElementById("tagLine").style.top = topPos + "px";
+		//console.log("tagLine top = " + topPos);
+		document.getElementById("tagLine").style.visibility = "visible";
+	}
+	
+	function doDescDiv() {
+		var topPos = 0;
+		topPos += parseInt(document.getElementById("tagLine").getBoundingClientRect().bottom);
+		document.getElementById("descDiv").style.top = topPos + "px";
+		topPos += 20;
+		//console.log("tagLine top = " + topPos);
+		document.getElementById("descDiv").style.visibility = "visible";
+	}
+	
+	function doSocialDiv() {
+		var social = document.getElementById("socialDiv");
+		var topPos = 0;
+		topPos += parseInt(document.getElementById("descDiv").getBoundingClientRect().bottom);
+		topPos += 50;
+		social.style.top = topPos + "px";
+		//console.log("tagLine top = " + topPos);
+		social.style.visibility = "visible";
+		
+		var body = parseInt(document.body.offsetWidth);
+		if(body < 500 || body > 1400) {
+			setSocialWidth(100);
+		} else {
+			setSocialWidth(75);
+		}
+	}
+	
+	function setSocialWidth(intWidth) {
+		var imgs = document.getElementById("socialDiv").getElementsByTagName("img");
+		for(var i=0; i<imgs.length; i++) {
+			imgs[i].width = intWidth.toString();
+		}
+	}
+	
+	function showClubSearch(blnShow) {
+		var strDisplay = "";
+		if(!blnShow) {
+			strDisplay = "none";
+			showOverlay(false);
+		} else {
+			showOverlay(true);
+			document.body.style.overflow = "hidden";
+		}
+		
+		document.getElementById("viewClubsDiv").style.display = strDisplay;
+	}
+	
+	function resizeText(id, divWidth, fontControlSize, actualWidthAtCtrlSize, perc) {
+		// font-size: 100px is actually 240px wide
+		var logoMaxWidth = divWidth * perc; // get max width that the logo can be
+		var ratio = logoMaxWidth / actualWidthAtCtrlSize;
+		var newFontSize = Math.floor(ratio * fontControlSize);
+		//alert(newFontSize);
+		document.getElementById(id).style.fontSize = newFontSize + "px";
+		//console.log(id + ": " + newFontSize);
+	}
+	
+	function getCookie(c_name) {
+		var c_value = document.cookie;
+		var c_start = c_value.indexOf(" " + c_name + "=");
+		if (c_start == -1)
+		  {
+		  c_start = c_value.indexOf(c_name + "=");
+		  }
+		if (c_start == -1)
+		  {
+		  c_value = null;
+		  }
+		else
+		  {
+		  c_start = c_value.indexOf("=", c_start) + 1;
+		  var c_end = c_value.indexOf(";", c_start);
+		  if (c_end == -1)
+		  {
+		c_end = c_value.length;
+		}
+		c_value = unescape(c_value.substring(c_start,c_end));
+		}
+		return c_value;
+	}
+	
+	function showWordpress() {
+		var div = document.getElementById("wordpressDiv");
+		if(div.style.display == "") {
+			div.style.display = "none";
+		} else {
+			div.style.display = "";
+			//div.style.top = document.getElementById("wordpressImg").getBoundingClientRect().top - div.getBoundingClientRect().height;
+		}
+	}
+	
+	function showOverlay(blnShow) {
+		var strDisplay = ""
+		if(!blnShow) {
+			strDisplay = "none";
+		}
+		document.getElementById("overlay").style.display = strDisplay;
+		document.getElementById("overlay").style.width = document.body.clientWidth;
+		document.getElementById("overlay").style.height = document.body.clientHeight;
+		
+		if(parseInt(document.body.scrollHeight) > parseInt(document.getElementById("overlay").style.height)) {
+			document.getElementById("overlay").style.height = document.body.scrollHeight;
+		}
+	}
+</script>
+<script type="text/javascript" src="http://widgets.wp.com/platform.js"></script>
+<title>Racing Club Manager</title>
+</head>
+<body onload="init();">
+
+<div id="overlay" style="position:absolute;top:0px;left:0px;z-index:2999;background-color:black;opacity:.80;filter: alpha(opacity=80);display:none;">
+</div>
+
+<div id="wordpressDiv" align="center" style="width:100%; position:absolute; top: 200px; z-index:3000; display:none;">
+	<a class="wordpress-timeline" href="http://racingclubmanager.wordpress.com" data-show-gravatars="true" width="600">Recent Posts</a>
+</div>
+
+<div id="viewClubsDiv" align="center" style="width:100%; position:absolute; top: 200px; z-index:3000; display:none;">
+	<table border="0" cellspacing="0" cellpadding="0" style="border: 2px solid #ccc;">
+		<tr>
+			<td style="background-color: #263248;" align="right">
+				<a href="javascript:showClubSearch(false);" class="title">Close</a>&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color: white;">
+				<iframe src="view_all_clubs.cfm?from=index" width="600" height="400" frameborder="0" id="iframe_clubSearch"></iframe>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color: white;"></td>
+		</tr>
+	</table>
+</div>
+
+<div style="width:100%;height:54px;" class="block" align="center">
+	<table border="0" cellspacing="0" cellpadding="5" width="90%">
+		<tr>
+			<td width="80%">
+				<!--<span style="font-size: 12pt;cursor:pointer;color:black;"><b><span style="font-style:italic;">racing</span><span style="color:#fff;">club</span><span>manager</span></b></span>-->
+				<table cellspacing="0" cellpadding="0" border="0">
+					<tr>
+						<td>
+							<img src="imgs/rcm-nav-50.jpg" height="36">
+						</td>
+						<td>
+							&nbsp;&nbsp;<a href="club_home.cfm" class="index-nav-link">Club Home</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;<a href="contact.cfm" class="index-nav-link">Contact</a>
+							<!--&nbsp;&nbsp;<a href="FAQ.cfm">FAQ</a>-->
+							&nbsp;&nbsp;&nbsp;&nbsp;<a href="admin_races_results.cfm" class="index-nav-link">Admins</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td align="right" class="font_size_10" width="20%">
+				<a href="create_club.cfm" class="index-nav-link" style="color:black;text-decoration:none;font-weight:bold;">+Create a Club</a>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div style="width:100%;" align="center">
+
+<div id="rcmTitle">
+	<!--Racing Club Manager-->
+		<!--<span style="font-weight:bold;font-style:italic;color: #FF9800;">racing </span><span style="font-weight:bold;">club</span><span style="font-weight:bold;color: #FF9800;">manager</span>-->
+		<img src="imgs/rcm-logo-new-jpg.jpg" style="width:600px;" />
+</div>
+
+<div id="car">
+	<img src="imgs/mclaren.png" id="carImg" width="300" />
+</div>
+
+<div id="clubSearch">
+	<iframe src="club_search.cfm" width="600" height="250" frameborder="0"></iframe>
+</div>
+
+<div align="center" id="tagLine">
+	ORGANIZE.&nbsp;&nbsp;SCHEDULE.&nbsp;&nbsp;RACE.
+</div>
+
+<div id="descDiv">
+	<div id="description">
+		The Racing Club Manager is a free tool that allows you to create or join a racing club for your favorite racing games.
+		You can add members to your club, organize races, record results, and see stats and leader boards based on those results.
+		Right now we support Assetto Corsa, Forza 4, Forza 5, Forza 6, Forza 7, Forza Horizon 2, Driveclub, F1 2014, Gran Turismo 5, Gran Turismo 6, iRacing, Project CARS, Project CARS 2, RaceRoom, rFactor 2, Live for Speed and simraceway.
+		If you don't see your favorite racing game listed here, <a href="contact.cfm">contact us</a> and we'll work on getting it added.
+	</div>
+</div>
+
+<div id="socialDiv">
+	<!--<a href="http://racingclubmanager.wordpress.com/"><img src="imgs/social/wp.png" id="wordpressImg" width="100" /></a>-->
+	<img src="imgs/social/wp.png" id="wordpressImg" style="cursor:pointer;" onclick="showWordpress();" width="100" />
+	<a href="https://www.facebook.com/Racingclubmgr"><img src="imgs/social/fb.png" width="100" /></a>
+	<a href="https://twitter.com/RacingClubMgr"><img src="imgs/social/twitter.png" width="100" border="0" /></a>
+	<!--<img src="imgs/social/youtube.png" width="100" />
+	<img src="imgs/social/insta.png" width="100" />-->
+	<a href="contact.cfm"><img src="imgs/social/mail.png" width="100" border="0" /></a>
+</div>
+
+
+</div>
+
+</body>
+</html>
